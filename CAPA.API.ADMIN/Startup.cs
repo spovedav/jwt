@@ -3,6 +3,7 @@ using CAPA.APP.Interfaces.Servicios;
 using CAPA.APP.Servicios;
 using CAPA.APP.Utilities;
 using CAPA.DOMAIN.Static;
+using CAPA.INFRE.EF;
 using CAPA.INFRE.Respositorio;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -43,8 +45,10 @@ namespace CAPA.API.ADMIN
 
             UtilititesStartup.CargarDatosIniciales(Configuration);
 
+            //services.AddScoped<IDbConnection>(_ => new SqlConnection(UtilititesStartup.Cadena));
 
-            services.AddScoped<IDbConnection>(_ => new SqlConnection(UtilititesStartup.Cadena));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(UtilititesStartup.Cadena));
 
             #region SERVICOS
             services.AddScoped<IUsuarioServices, UsuarioServices>();
@@ -52,7 +56,8 @@ namespace CAPA.API.ADMIN
             #endregion
 
             #region REPOSITORIOS
-            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            //services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddScoped<IUsuarioRepositorio, INFRE.EF.Repositorio.UsuarioRepositorio>();
             #endregion
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
