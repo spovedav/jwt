@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CAPA.APP\CAPA.APP.csproj" />
+    <ProjectReference Include="..\CAPA.HTTP\CAPA.HTTP.csproj" />
+  </ItemGroup>
+
+</Project>
